@@ -1,3 +1,3 @@
 export default function Footer() {
-  return <footer>&copy; 2023 IntegerStore</footer>;
+  return <footer>&copy; 2024 IntegerStore</footer>;
 }
