@@ -10,21 +10,6 @@ export default function Header() {
         <GiGalaxy size={24} />
         <div>IntegerStore</div>
       </Link>
-      <nav>
-        <NavLink to="/">
-          <MdHome size={24} />
-          Beranda
-        </NavLink>
-        <NavLink to="/about">
-          <MdInfo size={24} />
-          Tentang
-        </NavLink>
-        <NavLink to="/contact">
-          <MdContactPage size={24} />
-          Kontak
-        </NavLink>
-      </nav>
-      <Button>Login</Button>
     </header>
   );
 }

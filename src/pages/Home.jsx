@@ -97,7 +97,6 @@ export default function Home() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [showBy, setShowBy] = useState("");
   const [page, setPage] = useState(1);
-  const [newItem, setNewItem] = useState();
   // const [editedProduct, setEditedProduct] = useState();
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -121,7 +120,6 @@ export default function Home() {
   return (
     <div className="products">
       <header>
-        <Button onClick={() => setNewItem({ id: idSquence })}>Tambah</Button>
         <label>
           Cari:
           <input
