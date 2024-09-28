@@ -1,25 +1,11 @@
 import Button from "./Button";
 
-export default function Product({
-  id,
-  name,
-  image,
-  price,
-  category,
-  cart,
-  // filteredSortedProducts,
-  product,
-  setProducts,
-  // setEditedProduct,
-  setCart,
-}) {
+export default function Product({ id, name, image, price, category, cart, setCart }) {
   return (
     <div className="product">
       <img src={image} alt={name} />
       <section>
-        <h2>
-          ({id}) {name}
-        </h2>
+        <h2>{name}</h2>
         <p>
           {price.toLocaleString("id-ID", {
             style: "currency",
@@ -27,21 +13,8 @@ export default function Product({
             maximumFractionDigits: 0,
           })}
         </p>
-        <h2>({category})</h2>
-        <div>
-          {/* <Button
-            variant="tonal"
-            onClick={() =>
-              setEditedProduct({
-                id,
-                name,
-                image,
-                price,
-              })
-            }
-          >
-            Edit
-          </Button> */}
+        <p>#{category}</p>
+        <div >
           <Button
             onClick={() => {
               if (cart.find((p) => p.id === id)) {
@@ -72,15 +45,6 @@ export default function Product({
           >
             Beli
           </Button>
-
-          {/* <Button
-            onClick={() => {
-              confirm(`Apakah Anda yakin ingin menghapus?`) &&
-                setProducts(product.filter((p) => p.id !== product.id));
-            }}
-          >
-            hapus
-          </Button> */}
         </div>
       </section>
     </div>

@@ -89,7 +89,6 @@ export default function Home() {
       category: "Tablet",
     },
   ]);
-  const [idSquence, setIdSequence] = useState(products.length);
   const [keyword, setKeyword] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
@@ -97,7 +96,6 @@ export default function Home() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [showBy, setShowBy] = useState("");
   const [page, setPage] = useState(1);
-  // const [editedProduct, setEditedProduct] = useState();
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -109,42 +107,24 @@ export default function Home() {
         return a[sortBy] > b[sortBy] ? -1 : 1;
       }
     })
-    .filter(
-      (product) =>
-        product.name.toLowerCase().includes(keyword) &&
-        product.category.includes(showBy) &&
-        product.price >= minPrice &&
-        product.price <= maxPrice
-    );
+    .filter((product) => product.name.toLowerCase().includes(keyword) && product.category.includes(showBy) && product.price >= minPrice && product.price <= maxPrice);
 
   return (
     <div className="products">
       <header>
         <label>
           Cari:
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
+          <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
         </label>
         <section>
           Harga:
           <label>
             Minimal:
-            <input
-              type="number"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-            />
+            <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
           </label>
           <label>
             Maksimal:
-            <input
-              type="number"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value || Infinity)}
-            />
+            <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value || Infinity)} />
           </label>
           <label>
             Kategori:
@@ -164,36 +144,20 @@ export default function Home() {
             <option value="name">Nama</option>
             <option value="price">Harga</option>
           </select>
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
+          <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
             <option value="asc">Naik</option>
             <option value="desc">Turun</option>
           </select>
         </section>
         <section>
-          <Button onClick={() => setIsCartOpen(true)}>
-            Keranjang: {cart.reduce((a, p) => a + p.count, 0)}
-          </Button>
+          <Button onClick={() => setIsCartOpen(true)}>Keranjang: {cart.reduce((a, p) => a + p.count, 0)}</Button>
         </section>
       </header>
       <main>
         {filteredSortedProducts.length > 0
           ? filteredSortedProducts
               .filter((_product, i) => i >= 4 * page - 4 && i < 4 * page)
-              .map((product) => (
-                <Product
-                  key={product.id}
-                  {...product}
-                  setProducts={setProducts}
-                  product={product}
-                  filteredSortedProducts={filteredSortedProducts}
-                  // setEditedProduct={setEditedProduct}
-                  cart={cart}
-                  setCart={setCart}
-                />
-              ))
+              .map((product) => <Product key={product.id} {...product} setProducts={setProducts} product={product} filteredSortedProducts={filteredSortedProducts} cart={cart} setCart={setCart} />)
           : "Tidak ada produk ditemukan."}
       </main>
       <footer>
@@ -203,73 +167,14 @@ export default function Home() {
         {filteredSortedProducts
           .filter((_product, i) => i % 4 === 0)
           .map((_product, i) => (
-            <button
-              key={i}
-              className="page-number"
-              onClick={() => setPage(i + 1)}
-              disabled={i + 1 === page}
-            >
+            <button key={i} className="page-number" onClick={() => setPage(i + 1)} disabled={i + 1 === page}>
               {i + 1}
             </button>
           ))}
-        <Button
-          onClick={() => setPage(page + 1)}
-          disabled={page === Math.ceil(filteredSortedProducts.length / 4)}
-        >
+        <Button onClick={() => setPage(page + 1)} disabled={page === Math.ceil(filteredSortedProducts.length / 4)}>
           Berikutnya
         </Button>
       </footer>
-
-      {/* {editedProduct && (
-        <form
-          className="dialog"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setProducts(
-              products.map((product) =>
-                product.id === editedProduct.id ? editedProduct : product
-              )
-            );
-            setEditedProduct(undefined);
-          }}
-        >
-          <h1>Edit Produk</h1>
-          <label>
-            Nama
-            <input
-              type="text"
-              value={editedProduct.name}
-              onChange={(e) =>
-                setEditedProduct({ ...editedProduct, name: e.target.value })
-              }
-              autoFocus
-            />
-          </label>
-          <label>
-            Harga
-            <input
-              type="number"
-              value={editedProduct.price}
-              onChange={(e) =>
-                setEditedProduct({
-                  ...editedProduct,
-                  price: parseInt(e.target.value),
-                })
-              }
-            />
-          </label>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button
-              type="reset"
-              variant="tonal"
-              onClick={() => setEditedProduct(undefined)}
-            >
-              Batal
-            </Button>
-            <Button>Simpan</Button>
-          </div>
-        </form>
-      )} */}
 
       {isCartOpen && (
         <div className="card dialog">
@@ -294,18 +199,7 @@ export default function Home() {
                     <button
                       onClick={() => {
                         if (product.count > 1) {
-                          // menggunakan indeks:
-                          // setCart(
-                          //   cart.with(i, { ...product, count: product.count - 1 })
-                          // );
-                          // menggunakan ID product:
-                          setCart(
-                            cart.map((p) =>
-                              p.id === product.id
-                                ? { ...p, count: p.count - 1 }
-                                : p
-                            )
-                          );
+                          setCart(cart.map((p) => (p.id === product.id ? { ...p, count: p.count - 1 } : p)));
                         } else {
                           setCart(cart.filter((p) => p.id !== product.id));
                         }
@@ -316,13 +210,7 @@ export default function Home() {
                     </button>
                     <button
                       onClick={() => {
-                        setCart(
-                          cart.map((p) =>
-                            p.id === product.id
-                              ? { ...p, count: p.count + 1 }
-                              : p
-                          )
-                        );
+                        setCart(cart.map((p) => (p.id === product.id ? { ...p, count: p.count + 1 } : p)));
                       }}
                       title="Tambah"
                     >
@@ -335,98 +223,6 @@ export default function Home() {
           </table>
         </div>
       )}
-
-      {/* {editedProduct && (
-        <form
-          className="dialog"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setProducts(
-              products.map((product) =>
-                product.id === editedProduct.id ? editedProduct : product
-              )
-            );
-            setEditedProduct(undefined);
-          }}
-        >
-          <h1>Edit Produk</h1>
-          <label>
-            Nama
-            <input
-              type="text"
-              value={editedProduct.name}
-              onChange={(e) =>
-                setEditedProduct({ ...editedProduct, name: e.target.value })
-              }
-              autoFocus
-            />
-          </label>
-          <label>
-            Harga
-            <input
-              type="number"
-              value={editedProduct.price}
-              onChange={(e) =>
-                setEditedProduct({
-                  ...editedProduct,
-                  price: parseInt(e.target.value),
-                })
-              }
-            />
-          </label>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Button
-              type="reset"
-              variant="tonal"
-              onClick={() => setEditedProduct(undefined)}
-            >
-              Batal
-            </Button>
-            <Button>Simpan</Button>
-          </div>
-        </form>
-      )}
-
-      {newItem && (
-        <form
-          className="card dialog"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setNewItem([...products, newItem]);
-            setNewItem();
-            setIdSequence(idSquence + 1);
-          }}
-        >
-          <h1>Tambah Item</h1>
-          <label>
-            ID
-            <input type="text" value={newItem.id} readOnly />
-          </label>
-          <label>
-            Nama
-            <input
-              type="text"
-              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-              required
-              autoFocus
-            />
-          </label>
-          <label>
-            Harga
-            <input
-              type="number"
-              onChange={(e) =>
-                setNewItem({ ...newItem, price: e.target.value })
-              }
-              required
-            />
-          </label>
-          <div>
-            <button onClick={() => setNewItem()}>Batal</button>
-            <button>Simpan</button>
-          </div>
-        </form>
-      )} */}
     </div>
   );
 }
